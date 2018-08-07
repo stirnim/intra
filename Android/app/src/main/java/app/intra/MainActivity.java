@@ -54,10 +54,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-    if (PersistentState.URL_KEY.equals(key)) {
+    if (PersistentState.SERVER_NAME_KEY.equals(key)) {
       updateServerName();
     }
   }
@@ -141,9 +139,6 @@ public class MainActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    // Sync old settings into new preferences if necessary.
-    PersistentState.syncLegacyState(this);
 
     // Export defaults into preferences.  See https://developer.android.com/guide/topics/ui/settings#Defaults
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

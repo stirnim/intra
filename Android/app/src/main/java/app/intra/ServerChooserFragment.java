@@ -28,13 +28,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import app.intra.util.Untemplate;
 
 /**
- * User interface for a the server URL selection.
+ * User interface for the server name selection.
  */
 
 public class ServerChooserFragment extends PreferenceDialogFragmentCompat
@@ -50,12 +47,12 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
         return fragment;
     }
 
-    private String getUrl() {
+    private String getName() {
         int checkedId = buttons.getCheckedRadioButtonId();
-        if (checkedId == R.id.pref_server_google) {
-            return getResources().getString(R.string.url0);
+        if (checkedId == R.id.pref_server_switch) {
+            return getResources().getString(R.string.server0);
         } else if (checkedId == R.id.pref_server_cloudflare) {
-            return getResources().getString(R.string.url1);
+            return getResources().getString(R.string.server1);
         } else {
             return text.getText().toString();
         }
@@ -66,7 +63,7 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
         boolean custom = checkedId == R.id.pref_server_custom;
         text.setEnabled(custom);
         if (custom) {
-            setValid(checkUrl(Untemplate.strip(getUrl())));
+            setValid(checkName(Untemplate.strip(getName())));
         } else {
             setValid(true);
         }
@@ -90,24 +87,19 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
         updateUI();
     }
 
-    // Check that the URL is a plausible DOH server: https with a domain, a path (at least "/"),
-    // and no query parameters or fragment.
-    private boolean checkUrl(String url) {
-        try {
-            URL parsed = new URL(url);
-            return parsed.getProtocol().equals("https") && !parsed.getHost().isEmpty() &&
-                !parsed.getPath().isEmpty() && parsed.getQuery() == null && parsed.getRef() == null;
-        } catch (MalformedURLException e) {
-            return false;
-        }
+    // Check that the server name is a plausible DoT server name
+    private boolean checkName(String name) {
+        // TODO: implement sound checks for server names consisting of a domain name or
+        //       ip address
+        return true;
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         // Usability optimization:
         // If the user is typing in the free text field and presses "enter" or "go" on the keyboard
-        // while the URL is valid, treat that the same as closing the keyboard and pressing "OK".
-        if (checkUrl(Untemplate.strip(v.getText().toString()))) {
+        // while the server name is valid, treat that the same as closing the keyboard and pressing "OK".
+        if (checkName(Untemplate.strip(v.getText().toString()))) {
             Dialog dialog = getDialog();
             if (dialog instanceof AlertDialog) {
                 Button ok = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
@@ -123,16 +115,16 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
         ServerChooser preference = (ServerChooser) getPreference();
-        String url = preference.getUrl();
+        String serverName = preference.getServerName();
         buttons = view.findViewById(R.id.pref_server_radio_group);
-        text = view.findViewById(R.id.custom_server_url);
-        if (url == null || url.equals(getResources().getString(R.string.url0))) {
-            buttons.check(R.id.pref_server_google);
-        } else if (url.equals(getResources().getString(R.string.url1))) {
+        text = view.findViewById(R.id.custom_server_name);
+        if (serverName == null || serverName.equals(getResources().getString(R.string.server0))) {
+            buttons.check(R.id.pref_server_switch);
+        } else if (serverName.equals(getResources().getString(R.string.server1))) {
             buttons.check(R.id.pref_server_cloudflare);
         } else {
             buttons.check(R.id.pref_server_custom);
-            text.setText(url);
+            text.setText(serverName);
         }
         buttons.setOnCheckedChangeListener(this);
         text.addTextChangedListener(this);
@@ -143,7 +135,7 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
     public void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
             ServerChooser preference = (ServerChooser) getPreference();
-            preference.setUrl(getUrl());
+            preference.setServerName(getName());
         }
         text.removeTextChangedListener(this);
         text.setOnEditorActionListener(null);
@@ -161,6 +153,6 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
         if (dialog instanceof AlertDialog) {
             ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(valid);
         }
-        dialog.findViewById(R.id.url_warning).setVisibility(valid ? View.INVISIBLE : View.VISIBLE);
+        dialog.findViewById(R.id.server_warning).setVisibility(valid ? View.INVISIBLE : View.VISIBLE);
     }
 }

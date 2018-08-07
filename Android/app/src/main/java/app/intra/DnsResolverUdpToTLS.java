@@ -43,7 +43,7 @@ import app.intra.util.UdpPacket;
 // writes them back to the tun interface. Takes ownership of the file descriptor.
 public class DnsResolverUdpToTLS extends Thread {
 
-  private static final String LOG_TAG = "DnsResolverUdpToHttps";
+  private static final String LOG_TAG = "DnsResolverUdpToTLS";
 
   // IP constants
   private static final int IP_MIN_HEADER_LENGTH = 20;

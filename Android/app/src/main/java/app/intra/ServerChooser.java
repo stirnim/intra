@@ -28,11 +28,11 @@ import java.util.Locale;
 
 /**
  * A preference that opens a dialog, allowing the user to choose their preferred server from a list
- * or by entering a URL.
+ * or by entering a server name.
  */
 
 public class ServerChooser extends DialogPreference {
-  private String url;
+  private String serverName;
   private String summaryTemplate;
   private String defaultDomain;
 
@@ -64,12 +64,12 @@ public class ServerChooser extends DialogPreference {
     summaryTemplate =
         context.getResources().getString(R.string.server_choice_summary);
     defaultDomain =
-        context.getResources().getString(R.string.domain0);
+        context.getResources().getString(R.string.server0);
   }
 
   @Override
   protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
-    setUrl(restorePersistedValue ? getPersistedString(url) : (String) defaultValue);
+    setServerName(restorePersistedValue ? getPersistedString(serverName) : (String) defaultValue);
   }
 
   @Override
@@ -77,29 +77,18 @@ public class ServerChooser extends DialogPreference {
     return a.getString(index);
   }
 
-  public String getUrl() {
-    return url;
+  public String getServerName() {
+    return serverName;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
-    persistString(url);
-    updateSummary(url);
+  public void setServerName(String name) {
+    this.serverName = name;
+    persistString(name);
+    updateSummary(name);
   }
 
   // Updates the "Currently <servername>" summary under the title.
-  private void updateSummary(String url) {
-    String domain = null;
-    if (url == null || url.isEmpty()) {
-      domain = defaultDomain;
-    } else {
-      try {
-        URL parsed = new URL(url);
-        domain = parsed.getHost();
-      } catch (MalformedURLException e) {
-        // Leave domain null.
-      }
-    }
+  private void updateSummary(String domain) {
     if (domain != null) {
       setSummary(String.format(Locale.ROOT, summaryTemplate, domain));
     } else {

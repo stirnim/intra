@@ -231,7 +231,7 @@
             android:scrollbars="horizontal"
             android:singleLine="true"
             android:textIsSelectable="true"
-            android:text="dns.google.com"
+            android:text="dns-cache.switch.ch"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
       </LinearLayout>

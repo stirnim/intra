@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- Each DOH server is defined by a domain (which is shown to the user) and a URL (which is
-  the actual DOH endpoint).  However, Google DNS uses a pre-standardization version of DOH, and
-  has additional bootstrap optimizations beyond standard URL connection.  We indicate this special
-  case by leaving the URL blank. -->
-  <string name="domain0" translatable="false">dns.google.com</string>
+  <!-- A DoT server is defined by a domain name or IP address (which is shown to the user) -->
+  <string name="server0" translatable="false">dns-cache.switch.ch</string>
+  <string name="server1" translatable="false">1.1.1.1</string>
+  <!-- <string name="domain0" translatable="false">dns.google.com</string>
   <string name="url0" translatable="false"></string>
   <string name="domain1" translatable="false">cloudflare-dns.com</string>
   <string name="url1" translatable="false">https://cloudflare-dns.com/dns-query</string>
@@ -16,4 +15,5 @@
     <item>@string/url0</item>
     <item>@string/url1</item>
   </string-array>
+  -->
 </resources>

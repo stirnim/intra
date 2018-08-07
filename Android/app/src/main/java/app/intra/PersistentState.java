@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import app.intra.util.Untemplate;
@@ -23,7 +22,7 @@ public class PersistentState {
   private static final String LOG_TAG = "PersistentState";
 
   public static final String APPS_KEY = "pref_apps";
-  public static final String URL_KEY = "pref_server_url";
+  public static final String SERVER_NAME_KEY = "pref_server_name";
 
   private static final String APPROVED_KEY = "approved";
   private static final String ENABLED_KEY = "enabled";
@@ -55,92 +54,19 @@ public class PersistentState {
     editor.apply();
   }
 
-  public static void syncLegacyState(Context context) {
-    // Copy the domain choice into the new URL setting, if necessary.
-    if (getServerUrl(context) != null) {
-      // New server URL is already populated
-      return;
-    }
-
-    // There is no URL setting, so read the legacy server name.
-    SharedPreferences settings = getInternalState(context);
-    String defaultDomain = context.getResources().getStringArray(R.array.domains)[0];
-    String domain = settings.getString(SERVER_KEY, defaultDomain);
-
-    if (domain == null) {
-      // Legacy setting is in the default state, so we can leave the new URL setting in the default
-      // state as well.
-      return;
-    }
-
-    // Get the corresponding URL.
-    String[] domains = context.getResources().getStringArray(R.array.domains);
-    String[] urls = context.getResources().getStringArray(R.array.urls);
-    String url = null;
-    for (int i = 0; i < domains.length; ++i) {
-      if (domains[i].equals(domain)) {
-        url = urls[i];
-        break;
-      }
-    }
-
-    if (url == null) {
-      Log.w(LOG_TAG, "Legacy domain is unrecognized");
-      return;
-    }
-    setServerUrl(context, url);
-  }
-
   // Apart from syncLegacyState() above, the URL is only set by the PreferenceScreen, not by Intra.
   private static void setServerUrl(Context context, String url) {
     SharedPreferences.Editor editor = getUserPreferences(context).edit();
-    editor.putString(URL_KEY, url);
+    editor.putString(SERVER_NAME_KEY, url);
     editor.apply();
-  }
-
-  public static String getServerUrl(Context context) {
-    String urlTemplate = getUserPreferences(context).getString(URL_KEY, null);
-    if (urlTemplate == null) {
-      return null;
-    }
-    return Untemplate.strip(urlTemplate);
   }
 
   public static String getServerName(Context context) {
-    String url = getServerUrl(context);
-    if (url == null || url.isEmpty()) {
-      return context.getResources().getString(R.string.domain0);
+    String srvTemplate = getUserPreferences(context).getString(SERVER_NAME_KEY, null);
+    if (srvTemplate == null) {
+      return context.getResources().getString(R.string.server0);
     }
-
-    try {
-      URL parsed = new URL(url);
-      return parsed.getHost();
-    } catch (MalformedURLException e) {
-      Log.w(LOG_TAG, "Stored URL is corrupted");
-      return null;
-    }
-  }
-
-  public static Set<String> getExtraGoogleV4Servers(Context context) {
-    return getInternalState(context).getStringSet(EXTRA_SERVERS_V4_KEY, new HashSet<String>());
-  }
-
-  public static void setExtraGoogleV4Servers(Context context, String[] servers) {
-    SharedPreferences.Editor editor = getInternalState(context).edit();
-    editor.putStringSet(EXTRA_SERVERS_V4_KEY,
-        new HashSet<String>(Arrays.asList(servers)));
-    editor.apply();
-  }
-
-  public static Set<String> getExtraGoogleV6Servers(Context context) {
-    return getInternalState(context).getStringSet(EXTRA_SERVERS_V6_KEY, new HashSet<String>());
-  }
-
-  public static void setExtraGoogleV6Servers(Context context, String[] servers) {
-    SharedPreferences.Editor editor = getInternalState(context).edit();
-    editor.putStringSet(EXTRA_SERVERS_V6_KEY,
-        new HashSet<String>(Arrays.asList(servers)));
-    editor.apply();
+    return Untemplate.strip(srvTemplate);
   }
 
   private static SharedPreferences getApprovalSettings(Context context) {

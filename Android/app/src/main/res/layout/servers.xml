@@ -9,8 +9,8 @@
             android:padding="8dp">
 
         <RadioButton
-                android:id="@+id/pref_server_google"
-                android:text="@string/domain0"
+                android:id="@+id/pref_server_switch"
+                android:text="@string/server0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -19,7 +19,7 @@
 
         <RadioButton
                 android:id="@+id/pref_server_cloudflare"
-                android:text="@string/domain1"
+                android:text="@string/server1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -36,11 +36,10 @@
                 android:minHeight="48dp"/>
 
         <EditText
-                android:id="@+id/custom_server_url"
-                android:hint="https://..."
+                android:id="@+id/custom_server_name"
                 style="@android:style/Widget.CompoundButton.RadioButton"
                 android:imeOptions="actionDone"
-                android:inputType="textFilter|textUri"
+                android:inputType="textFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -50,7 +49,7 @@
                 android:minHeight="48dp"/>
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:id="@+id/url_warning"
+              android:id="@+id/server_warning"
               android:text="@string/server_choice_warning"
               android:layout_marginStart="40dp"
               android:layout_marginLeft="40dp"

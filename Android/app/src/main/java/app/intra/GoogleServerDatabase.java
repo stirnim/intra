@@ -119,10 +119,14 @@ public class GoogleServerDatabase implements Dns {
       Log.i(LOG_TAG, "VPN was destroyed before bootstrap started");
       return new DualStackResult(new String[0], new String[0]);
     }
+    // TODO remove file, until then return null
+    return null;
+    /*
     Set<String> v4set = PersistentState.getExtraGoogleV4Servers(context);
     Set<String> v6set = PersistentState.getExtraGoogleV6Servers(context);
     String[] dummy = new String[0];
     return new DualStackResult(v4set.toArray(dummy), v6set.toArray(dummy));
+    */
   }
 
   /**
@@ -140,7 +144,11 @@ public class GoogleServerDatabase implements Dns {
       Log.i(LOG_TAG, "VPN was destroyed before bootstrap completed");
       return;
     }
+    // TODO remove file, until then break
+    return;
+    /*
     PersistentState.setExtraGoogleV4Servers(context, servers.getV4());
     PersistentState.setExtraGoogleV6Servers(context, servers.getV6());
+    */
   }
 }

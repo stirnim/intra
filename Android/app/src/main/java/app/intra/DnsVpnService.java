@@ -24,7 +24,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.PeriodicSync;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -69,7 +68,7 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
   private ParcelFileDescriptor tunFd = null;
   private DnsResolverUdpToHttps dnsResolver = null;
   private ServerConnection serverConnection = null;
-  private String url = null;
+  private String serverName = null;
 
   private boolean shouldRestart = false;
 
@@ -94,8 +93,8 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
       // Restart the VPN so the new app exclusion choices take effect immediately.
       restartVpn();
     }
-    if (PersistentState.URL_KEY.equals(key)) {
-      url = PersistentState.getServerUrl(this);
+    if (PersistentState.SERVER_NAME_KEY.equals(key)) {
+      serverName = PersistentState.getServerName(this);
       spawnServerUpdate();
     }
   }
@@ -115,8 +114,8 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
 
   @Override
   public synchronized int onStartCommand(Intent intent, int flags, int startId) {
-    url = PersistentState.getServerUrl(this);
-    Log.i(LOG_TAG, String.format("Starting DNS VPN service, url=%s", url));
+    serverName = PersistentState.getServerName(this);
+    Log.i(LOG_TAG, String.format("Starting DNS VPN service, name=%s", serverName));
 
     // Registers this class as a listener for user preference changes.
     PreferenceManager.getDefaultSharedPreferences(this).
@@ -182,10 +181,10 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
     if (serverConnection != null) {
       String currentUrl = serverConnection.getUrl();
       if (currentUrl == null) {
-        if (url == null) {
+        if (serverName == null) {
           return;
         }
-      } else if (currentUrl.equals(url)) {
+      } else if (currentUrl.equals(serverName)) {
         return;
       }
     }
@@ -194,12 +193,11 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
     // the current DNS configuration.
     Bundle bootstrap = new Bundle();
     long beforeBootstrap = SystemClock.elapsedRealtime();
-    if (url == null || url.isEmpty()) {
-      // Use the Google Resolver
-      AssetManager assets = this.getApplicationContext().getAssets();
-      serverConnection = GoogleServerConnection.get(new GoogleServerDatabase(assets));
+    if (serverName == null || serverName.isEmpty()) {
+      Log.w(LOG_TAG, "server name is empty!");
+      return;
     } else {
-      serverConnection = StandardServerConnection.get(url);
+      serverConnection = DNSOverTLSConnection.get(serverName);
     }
 
     if (serverConnection == null) {

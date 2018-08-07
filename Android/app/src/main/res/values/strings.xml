@@ -6,15 +6,13 @@
 
   <string name="about_text"
           description="Text for the welcome screen.">
-    Intra protects your DNS queries by routing them over a secure HTTPS connection. This reduces the
+    Intra protects your DNS queries by routing them over a secure TLS connection. This reduces the
     chance that you will be sent to the wrong site, or have your browsing blocked or observed.
   </string>
 
   <string name="privacy_text"
           description="Privacy text for the welcome screen.">
-    By default, your queries will be routed to
-    <a href="https://developers.google.com/speed/public-dns/">Google Public DNS</a>
-    (<a href="https://developers.google.com/speed/public-dns/privacy">Privacy Policy</a>).
+    By default, your queries will be routed to SWITCH Public DNS.
     You can also choose to use <a href="https://cloudflare-dns.com">Cloudflare</a>
     (<a href="https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy/">Privacy Policy</a>).
   </string>
@@ -43,6 +41,7 @@
           description="Menu label to access the Settings page.">
     Settings
   </string>
+
 
   <string name="privacy_link"
           description="Link to the privacy policy.">
@@ -174,22 +173,22 @@
   </string>
 
   <string name="server_choice" description="Title of the setting to choose your server">
-    Select DNS over HTTPS Server
+    Select DNS over TLS Server
   </string>
 
   <string name="server_choice_summary"
           description="Template for text that appears under the server choice option">
-    Currently <xliff:g example="dns.google.com" id="server_name">%s</xliff:g>
+    Currently <xliff:g example="dns-cache.switch.ch" id="server_name">%s</xliff:g>
   </string>
 
   <string name="server_choice_custom"
-          description="Label for option to type in your own server URL">
-    Custom server URL
+          description="Label for option to type in your own server name">
+    Custom server name
   </string>
 
   <string name="server_choice_warning"
-          description="Warning shown if the URL is invalid or does not start with https://">
-    Custom server must be a valid https:// URL
+          description="Warning shown if the server name is invalid">
+    Custom server must be a valid domain name or IP address
   </string>
 
   <string name="excluded_apps"
