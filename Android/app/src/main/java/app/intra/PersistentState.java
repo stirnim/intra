@@ -1,7 +1,5 @@
 package app.intra;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -87,7 +85,7 @@ public class PersistentState {
     }
 
     if (url == null) {
-      FirebaseCrash.logcat(Log.WARN, LOG_TAG, "Legacy domain is unrecognized");
+      Log.w(LOG_TAG, "Legacy domain is unrecognized");
       return;
     }
     setServerUrl(context, url);
@@ -118,7 +116,7 @@ public class PersistentState {
       URL parsed = new URL(url);
       return parsed.getHost();
     } catch (MalformedURLException e) {
-      FirebaseCrash.logcat(Log.WARN, LOG_TAG, "Stored URL is corrupted");
+      Log.w(LOG_TAG, "Stored URL is corrupted");
       return null;
     }
   }

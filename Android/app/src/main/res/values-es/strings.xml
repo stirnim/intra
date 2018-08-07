@@ -26,9 +26,6 @@
     <!-- Menu label to return to the app's main screen. -->
     <string name="home">Inicio</string>
 
-    <!-- Menu entry for sending error reports and complaints to the developers. -->
-    <string name="feedback">Enviar Comentarios</string>
-
     <!-- Link to the privacy policy -->
     <string name="privacy_link">Política de Privacidad</string>
 
@@ -112,22 +109,6 @@
     <!-- This text appears under a two-letter ISO country code, indicating the country where the
     resolved domain's IP address is located. -->
     <string name="destination_label">Servidor de destino</string>
-
-    <!-- Text that appears above the feedback text entry field. -->
-    <string name="before_feedback">¡Ayúdanos a mejorar Intra!
-        Intra es un producto en desarrollo y necesitamos tu ayuda para mejorarlo.
-        Cuéntanos que está funcionando y qué no. ¡Gracias!</string>
-
-    <!-- Hint that appears in the text field where the user will type their complaint or error. -->
-    <string name="feedback_hint">Tus comentarios</string>
-
-    <!-- Text that appears after the feedback text entry field, warning users not to include
-    personally identifying information that could violate their privacy. -->
-    <string name="after_feedback">Esta información será enviada al equipo de Intra. Por favor, no incluyas
-        ninguna información personal.</string>
-
-    <!-- Text on the button to submit feedback. -->
-    <string name="submit_feedback">Enviar</string>
 
     <!-- Status indicator text shown in a persistent notification. -->
     <string name="notification_title">Protección de DNS activada</string>

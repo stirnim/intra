@@ -62,11 +62,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 import app.intra.util.DnsQueryTracker;
 import app.intra.util.DnsTransaction;
-import app.intra.util.Feedback;
 import app.intra.util.Names;
 
 import java.net.InetAddress;
@@ -97,7 +94,7 @@ public class MainActivity extends AppCompatActivity
           if (Names.RESULT.name().equals(intent.getAction())) {
             DnsVpnService dnsVpnService = DnsVpnServiceState.getInstance().getDnsVpnService();
             if (dnsVpnService == null) {
-              FirebaseCrash.logcat(Log.ERROR, LOG_TAG, "Found unexpected null DnsVpnService");
+              Log.e(LOG_TAG, "Found unexpected null DnsVpnService");
               return;
             }
             updateStatsDisplay(getNumRequests(),
@@ -198,9 +195,6 @@ public class MainActivity extends AppCompatActivity
           case R.id.settings:
             chooseView(R.id.settings);
             return true;
-          case R.id.report_error:
-            chooseView(R.id.frame_report);
-            return true;
           case R.id.privacy:
             openUrl("https://developers.google.com/speed/public-dns/privacy");
             return true;
@@ -229,22 +223,6 @@ public class MainActivity extends AppCompatActivity
     IntentFilter intentFilter = new IntentFilter(Names.RESULT.name());
     intentFilter.addAction(Names.DNS_STATUS.name());
     LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, intentFilter);
-
-    // Connect error report button
-    Button errorButton = (Button) findViewById(R.id.feedbackButton);
-    errorButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        // Send user feedback to Crashlytics
-        EditText userErrorReport = (EditText) findViewById(R.id.feedbackContent);
-        String userMessage = userErrorReport.getText().toString();
-        FirebaseCrash.logcat(Log.INFO, LOG_TAG, userMessage);
-        FirebaseCrash.report(new Feedback("User feedback"));
-
-        // Go back to the home screen
-        chooseView(R.id.frame_main);
-      }
-    });
 
     prepareHyperlinks(this, findViewById(R.id.activity_main));
   }
@@ -420,7 +398,7 @@ public class MainActivity extends AppCompatActivity
         startDnsVpnService();
       }
     } else {
-      FirebaseCrash.logcat(Log.ERROR, LOG_TAG, "Device does not support system-wide VPN mode.");
+      Log.e(LOG_TAG, "Device does not support system-wide VPN mode.");
     }
   }
 
@@ -546,10 +524,8 @@ public class MainActivity extends AppCompatActivity
 
   private void chooseView(int id) {
     View home = findViewById(R.id.frame_main);
-    View report = findViewById(R.id.frame_report);
     View settings = findViewById(R.id.settings);
     home.setVisibility(View.GONE);
-    report.setVisibility(View.GONE);
     settings.setVisibility(View.GONE);
 
     View selected = findViewById(id);
@@ -563,9 +539,6 @@ public class MainActivity extends AppCompatActivity
       case R.id.settings:
         actionBar.setTitle(R.string.settings);
         showSettings();
-        break;
-      case R.id.frame_report:
-        actionBar.setTitle(R.string.feedback);
         break;
     }
 

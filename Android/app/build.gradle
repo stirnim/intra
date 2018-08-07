@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
 // See https://developer.android.com/studio/publish/app-signing#secure-shared-keystore
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//def keystorePropertiesFile = rootProject.file("keystore.properties")
+//def keystoreProperties = new Properties()
+//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     signingConfigs {
         config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            //keyAlias keystoreProperties['keyAlias']
+            //keyPassword keystoreProperties['keyPassword']
+            //storeFile file(keystoreProperties['storeFile'])
+            //storePassword keystoreProperties['storePassword']
         }
     }
     compileSdkVersion 26
@@ -56,11 +56,4 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    // For Firebase Analytics, etc.
-    compile 'com.google.firebase:firebase-core:11.8.0'
-    compile 'com.google.firebase:firebase-perf:11.8.0'
-    compile 'com.google.firebase:firebase-crash:11.8.0'
 }
-// For Firebase Analytics
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.firebase-perf'

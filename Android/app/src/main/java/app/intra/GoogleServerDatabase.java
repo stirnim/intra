@@ -22,7 +22,6 @@ import android.util.Log;
 import app.intra.util.DiversitySampler;
 import app.intra.util.DualStackResult;
 
-import com.google.firebase.crash.FirebaseCrash;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -117,7 +116,7 @@ public class GoogleServerDatabase implements Dns {
   private DualStackResult getPreferred() {
     Context context = DnsVpnServiceState.getInstance().getDnsVpnService();
     if (context == null) {
-      FirebaseCrash.logcat(Log.INFO, LOG_TAG, "VPN was destroyed before bootstrap started");
+      Log.i(LOG_TAG, "VPN was destroyed before bootstrap started");
       return new DualStackResult(new String[0], new String[0]);
     }
     Set<String> v4set = PersistentState.getExtraGoogleV4Servers(context);
@@ -138,7 +137,7 @@ public class GoogleServerDatabase implements Dns {
     // Record them to disk so they can be prepended at the next startup.
     Context context = DnsVpnServiceState.getInstance().getDnsVpnService();
     if (context == null) {
-      FirebaseCrash.logcat(Log.INFO, LOG_TAG, "VPN was destroyed before bootstrap completed");
+      Log.i(LOG_TAG, "VPN was destroyed before bootstrap completed");
       return;
     }
     PersistentState.setExtraGoogleV4Servers(context, servers.getV4());

@@ -44,11 +44,6 @@
     Settings
   </string>
 
-  <string name="feedback"
-          description="Menu entry for sending error reports and complaints to the developers.">
-    Submit Feedback
-  </string>
-
   <string name="privacy_link"
           description="Link to the privacy policy.">
     Privacy Policy
@@ -216,28 +211,6 @@
   <string name="old_android"
           description="Shown when a user-interface element requires a newer OS version">
     This functionality is not available on your version of Android.
-  </string>
-
-  <string name="before_feedback"
-          description="Text that appears above the feedback text entry field.">
-    Help us improve Intra! Intra is an early-stage product and we need your help to make it better.
-    Tell us what\'s working, and what\'s not.  Thanks!
-  </string>
-
-  <string name="feedback_hint"
-          description="Hint that appears in the text field where the user will type their complaint or error.">
-    Your feedback
-  </string>
-
-  <string name="after_feedback"
-          description="Text that appears after the feedback text entry field, warning users not to include
-  personally identifying information that could violate their privacy.">
-    This information will be sent to the Intra team.  Please do not include any personal information
-    in your feedback.
-  </string>
-
-  <string name="submit_feedback" description="Text on the button to submit feedback.">
-    Submit
   </string>
 
   <string name="notification_title"

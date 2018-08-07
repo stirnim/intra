@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import app.intra.util.CountryMap;
 import app.intra.util.DnsPacket;
 import app.intra.util.DnsTransaction;
+import android.util.Log;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.google.firebase.crash.FirebaseCrash;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ProtocolException;
@@ -59,6 +59,8 @@ import java.util.Queue;
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+  private static final String LOG_TAG = "RecyclerAdapter";
+
   // The recycler contains two types of elements: the controls (just once, at the top)
   // and a potentially large number of transaction rows.
   private static final int TYPE_CONTROLS = 0;
@@ -80,7 +82,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     try {
       countryMap = new CountryMap(activity.getAssets());
     } catch (IOException e) {
-      FirebaseCrash.report(e);
+      Log.e(LOG_TAG, e.getStackTrace().toString());
     }
   }
 
