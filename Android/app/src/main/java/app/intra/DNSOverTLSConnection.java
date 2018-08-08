@@ -8,6 +8,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 
 import javax.net.ssl.SSLContext;
@@ -20,57 +21,75 @@ public class DNSOverTLSConnection implements ServerConnection {
 
 
     private final String hostname;
+    private InetAddress serverIP = null;
+    private static final String TAG="DNSOverTLSConnection";
 
 
     public static DNSOverTLSConnection get(String hostname) {
-        Log.d("DNSOverTLSConnection","creating TLS connection object with hostname "+hostname);
+        Log.d(TAG,"creating TLS connection object with hostname "+hostname);
         return new DNSOverTLSConnection(hostname);
     }
 
     private DNSOverTLSConnection(String hostname) {
         this.hostname = hostname;
-    }
-
-    public void performDnsRequest(byte[] data, DOTCallback callback) {
-        int DoTPORT = 853;
-
-        DatagramPacket outPacket = new DatagramPacket(data, data.length);
-
         try {
-            String addr="130.59.118.34";//TODO: poike hardcoded currently
-            Log.d("dns", "Trying to perform DNS-over-TLS lookup via " + addr.toString());
-            Socket dnsSocket;
-
-            SSLContext context = SSLContext.getInstance("TLSv1.2");
-            context.init(null, null, null);
-            dnsSocket = context.getSocketFactory()
-                    .createSocket(addr, DoTPORT);
-
-            //Create TLS v1.2 socket
-            //service.protect(dnsSocket);
-            DataOutputStream dos = new DataOutputStream(dnsSocket.getOutputStream());
-            byte[] packet = outPacket.getData();
-            dos.writeShort(packet.length);
-            dos.write(packet);
-            dos.flush();
-
-            DataInputStream stream = new DataInputStream(dnsSocket.getInputStream());
-            int length = stream.readUnsignedShort();
-            byte[] returnpacketdata = new byte[length];
-            stream.read(returnpacketdata);
-            dnsSocket.close();
-            Log.d("dns", "Got answer for query");
-            callback.onDOTAnswer(returnpacketdata);
-
-        } catch (Exception e) {
+            InetAddress addr = InetAddress.getByName(hostname);
+            this.serverIP = addr;
+            Log.d(TAG,"Resolved Host: "+this.serverIP);
+        } catch (UnknownHostException e){
+            Log.e(TAG,"Could not resolve "+hostname);
             e.printStackTrace();
         }
 
     }
 
+    public void performDnsRequest(final byte[] data, final DOTCallback callback) {
+        final int DoTPORT = 853;
+        if (serverIP==null){
+            Log.e(TAG,"Cannot perform DNS query, we could not get a ip for "+hostname);
+
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatagramPacket outPacket = new DatagramPacket(data, data.length);
+                try {
+                    Log.d(TAG, "Trying to perform DNS-over-TLS lookup via " + serverIP);
+                    Socket dnsSocket;
+
+                    SSLContext context = SSLContext.getInstance("TLSv1.2");
+                    context.init(null, null, null);
+                    dnsSocket = context.getSocketFactory()
+                            .createSocket(serverIP, DoTPORT);
+
+                    //Create TLS v1.2 socket
+                    //service.protect(dnsSocket);
+                    DataOutputStream dos = new DataOutputStream(dnsSocket.getOutputStream());
+                    byte[] packet = outPacket.getData();
+                    dos.writeShort(packet.length);
+                    dos.write(packet);
+                    dos.flush();
+
+                    DataInputStream stream = new DataInputStream(dnsSocket.getInputStream());
+                    int length = stream.readUnsignedShort();
+                    byte[] returnpacketdata = new byte[length];
+                    stream.read(returnpacketdata);
+                    dnsSocket.close();
+                    Log.d(TAG, "Got answer for query");
+                    callback.onDOTAnswer(returnpacketdata);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+    }
+
     @Override
     public void performDnsRequest(DnsMetadata metadata, byte[] data, Callback cb) {
-
+//unused, required to implement the ServerConnection interface
     }
 
     @Override
