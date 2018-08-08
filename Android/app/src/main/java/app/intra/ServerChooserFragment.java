@@ -29,6 +29,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * User interface for the server name selection.
  */
@@ -90,9 +93,25 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
 
     // Check that the server name is a plausible DoT server name
     private boolean checkName(String name) {
-        // TODO: implement sound checks for server names consisting of a domain name or
-        //       ip address
         return true;
+        /*
+        if ( isDomain(name) || isIp(name) ) {
+            return true;
+        }
+        return false;
+        */
+    }
+
+    private boolean isIp(String text) {
+        Pattern p = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+        Matcher m = p.matcher(text);
+        return m.find();
+    }
+
+    private boolean isDomain(String text) {
+        Pattern p = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$)){2,}$");
+        Matcher m = p.matcher(text);
+        return m.find();
     }
 
     @Override
