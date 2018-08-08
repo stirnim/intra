@@ -93,13 +93,10 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
 
     // Check that the server name is a plausible DoT server name
     private boolean checkName(String name) {
-        return true;
-        /*
         if ( isDomain(name) || isIp(name) ) {
             return true;
         }
         return false;
-        */
     }
 
     private boolean isIp(String text) {

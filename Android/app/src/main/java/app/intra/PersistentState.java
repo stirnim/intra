@@ -70,16 +70,6 @@ public class PersistentState {
     return context.getSharedPreferences(APPROVAL_PREFS_NAME, Context.MODE_PRIVATE);
   }
 
-  public static boolean getWelcomeApproved(Context context) {
-    return getApprovalSettings(context).getBoolean(APPROVED_KEY, false);
-  }
-
-  public static void setWelcomeApproved(Context context, boolean approved) {
-    SharedPreferences.Editor editor = getApprovalSettings(context).edit();
-    editor.putBoolean(APPROVED_KEY, approved);
-    editor.apply();
-  }
-
   public static Set<String> getExcludedPackages(Context context) {
     return getUserPreferences(context).getStringSet(APPS_KEY, new HashSet<String>());
   }

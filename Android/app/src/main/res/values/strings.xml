@@ -1,27 +1,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="app_name" translatable="false">Intra</string>
 
-  <string name="about_headline"
-          description="Headline for the welcome screen.">Honest and secure DNS</string>
-
-  <string name="about_text"
-          description="Text for the welcome screen.">
-    Intra protects your DNS queries by routing them over a secure TLS connection. This reduces the
-    chance that you will be sent to the wrong site, or have your browsing blocked or observed.
-  </string>
-
-  <string name="privacy_text"
-          description="Privacy text for the welcome screen.">
-    By default, your queries will be routed to SWITCH Public DNS.
-    You can also choose to use <a href="https://cloudflare-dns.com">Cloudflare</a>
-    (<a href="https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy/">Privacy Policy</a>).
-  </string>
-
-  <string name="accept"
-          description="Button label to exit the welcome screen.">
-    Get Started
-  </string>
-
   <string name="drawer_open"
           description="Hint for visually impaired users to access the menu.">
     Open navigation drawer
@@ -56,11 +35,6 @@
   <string name="source_code"
           description="Link to the source code for this app.">
     Source Code
-  </string>
-
-  <string name="short_credits_text"
-          description="Jigsaw credits. 'Jigsaw' and 'Intra' are not translatable.">
-    Intra is an experimental open source project by <a href="https://jigsaw.google.com">Jigsaw</a>.
   </string>
 
   <string name="credits_text"

@@ -222,12 +222,6 @@ public class MainActivity extends AppCompatActivity
     prepareHyperlinks(this, findViewById(R.id.activity_main));
   }
 
-  @Override
-  public void onAttachedToWindow() {
-    // Show the intro dialog.
-    getIntroApproval();
-  }
-
   public View getControlView(ViewGroup parent) {
     if (controlView != null) {
       return controlView;
@@ -563,9 +557,4 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  private void getIntroApproval() {
-    if (WelcomePopup.shouldShow(this)) {
-      WelcomePopup popup = new WelcomePopup(this);
-    }
-  }
 }
