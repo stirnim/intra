@@ -320,7 +320,7 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
   private synchronized void startDnsResolver() {
     if (dnsResolver == null && serverConnection != null) {
       Log.i(LOG_TAG, "Starting DNS resolver");
-      dnsResolver = new DnsResolverUdpToTLS(tunFd, serverConnection);
+      dnsResolver = new DnsResolverUdpToTLS(tunFd, serverConnection, this);
       dnsResolver.start();
     }
   }
