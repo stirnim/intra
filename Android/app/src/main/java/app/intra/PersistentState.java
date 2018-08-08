@@ -55,7 +55,8 @@ public class PersistentState {
   }
 
   // only set by the PreferenceScreen, not by Intra.
-  private static void setServerName(Context context, String name) {
+  public static void setServerName(Context context, String name) {
+    Log.d(LOG_TAG, "set server preference: " + name);
     SharedPreferences.Editor editor = getUserPreferences(context).edit();
     editor.putString(SERVER_NAME_KEY, name);
     editor.apply();
@@ -63,6 +64,7 @@ public class PersistentState {
 
   public static String getServerName(Context context) {
     String name = getUserPreferences(context).getString(SERVER_NAME_KEY, null);
+    Log.d(LOG_TAG, "get server preference: " + name);
     if (name == null) {
       return context.getResources().getString(R.string.server0);
     }

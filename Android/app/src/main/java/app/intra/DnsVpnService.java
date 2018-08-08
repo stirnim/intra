@@ -95,6 +95,7 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
     }
     if (PersistentState.SERVER_NAME_KEY.equals(key)) {
       serverName = PersistentState.getServerName(this);
+      Log.d(LOG_TAG, "server preference changed " + serverName);
       spawnServerUpdate();
     }
   }
@@ -201,6 +202,7 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
     }
 
     if (serverConnection == null) {
+      Log.d(LOG_TAG, "Cannot initiate connection to server " + serverName);
       stopSelf();
       return;
     }
