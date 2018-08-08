@@ -5,13 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import app.intra.util.Untemplate;
 
 /**
  * Static class representing on-disk storage of mutable state.  Collecting this all in one class
@@ -68,7 +63,7 @@ public class PersistentState {
     if (name == null) {
       return context.getResources().getString(R.string.server0);
     }
-    return Untemplate.strip(name);
+    return name;
   }
 
   private static SharedPreferences getApprovalSettings(Context context) {

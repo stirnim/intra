@@ -21,6 +21,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -28,14 +29,14 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import app.intra.util.Untemplate;
-
 /**
  * User interface for the server name selection.
  */
 
 public class ServerChooserFragment extends PreferenceDialogFragmentCompat
     implements RadioGroup.OnCheckedChangeListener, TextWatcher, EditText.OnEditorActionListener {
+
+    private static final String LOG_TAG = "ServerChooserFragment";
     private RadioGroup buttons = null;
     private EditText text = null;
 
@@ -63,7 +64,7 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
         boolean custom = checkedId == R.id.pref_server_custom;
         text.setEnabled(custom);
         if (custom) {
-            setValid(checkName(Untemplate.strip(getName())));
+            setValid(checkName(getName()));
         } else {
             setValid(true);
         }
@@ -99,7 +100,7 @@ public class ServerChooserFragment extends PreferenceDialogFragmentCompat
         // Usability optimization:
         // If the user is typing in the free text field and presses "enter" or "go" on the keyboard
         // while the server name is valid, treat that the same as closing the keyboard and pressing "OK".
-        if (checkName(Untemplate.strip(v.getText().toString()))) {
+        if (checkName(v.getText().toString())) {
             Dialog dialog = getDialog();
             if (dialog instanceof AlertDialog) {
                 Button ok = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
