@@ -16,6 +16,7 @@ limitations under the License.
 package app.intra;
 
 import android.content.Intent;
+import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
@@ -67,13 +68,14 @@ public class DnsResolverUdpToTLS extends Thread {
 
   private ParcelFileDescriptor tunFd = null;
   public DNSOverTLSConnection serverConnection = null;
+  private VpnService vpn = null;
 
-  public DnsResolverUdpToTLS(ParcelFileDescriptor tunFd, DNSOverTLSConnection serverConnection) {
+  public DnsResolverUdpToTLS(ParcelFileDescriptor tunFd, DNSOverTLSConnection serverConnection, VpnService vpn) {
     super(LOG_TAG);
     Log.d(LOG_TAG, "Instantiating DnsResolverUdpToTLS");
     this.tunFd = tunFd;
     this.serverConnection = serverConnection;
-
+    this.vpn = vpn;
   }
 
   @Override
@@ -169,7 +171,7 @@ public class DnsResolverUdpToTLS extends Thread {
         dnsRequest.sourcePort = udpPacket.destPort;
         dnsRequest.destPort = udpPacket.sourcePort;
 
-        serverConnection.performDnsRequest(udpPacket.data,  new DnsOverTLSResponseCallback(dnsRequest, out));
+        serverConnection.performDnsRequest(udpPacket.data,  new DnsOverTLSResponseCallback(dnsRequest, out), vpn);
 
         Intent intent = new Intent(Names.QUERY.name());
         DnsVpnService dnsVpnService = DnsVpnServiceState.getInstance().getDnsVpnService();

@@ -1,5 +1,6 @@
 package app.intra;
 
+import android.net.VpnService;
 import android.util.Log;
 
 import java.io.DataInputStream;
@@ -27,23 +28,21 @@ public class DNSOverTLSConnection implements ServerConnection {
 
     public static DNSOverTLSConnection get(String hostname) {
         Log.d(TAG,"creating TLS connection object with hostname "+hostname);
-        return new DNSOverTLSConnection(hostname);
+        try {
+            return new DNSOverTLSConnection(hostname);
+        } catch (UnknownHostException e){
+            return null;
+        }
     }
 
-    private DNSOverTLSConnection(String hostname) {
+    private DNSOverTLSConnection(String hostname) throws UnknownHostException{
         this.hostname = hostname;
-        try {
             InetAddress addr = InetAddress.getByName(hostname);
             this.serverIP = addr;
             Log.d(TAG,"Resolved Host: "+this.serverIP);
-        } catch (UnknownHostException e){
-            Log.e(TAG,"Could not resolve "+hostname);
-            e.printStackTrace();
-        }
-
     }
 
-    public void performDnsRequest(final byte[] data, final DOTCallback callback) {
+    public void performDnsRequest(final byte[] data, final DOTCallback callback, final VpnService vpn) {
         final int DoTPORT = 853;
         if (serverIP==null){
             Log.e(TAG,"Cannot perform DNS query, we could not get a ip for "+hostname);
@@ -56,12 +55,15 @@ public class DNSOverTLSConnection implements ServerConnection {
                 DatagramPacket outPacket = new DatagramPacket(data, data.length);
                 try {
                     Log.d(TAG, "Trying to perform DNS-over-TLS lookup via " + serverIP);
+                    long start = System.currentTimeMillis();
                     Socket dnsSocket;
 
                     SSLContext context = SSLContext.getInstance("TLSv1.2");
                     context.init(null, null, null);
                     dnsSocket = context.getSocketFactory()
                             .createSocket(serverIP, DoTPORT);
+
+                    vpn.protect(dnsSocket);
 
                     //Create TLS v1.2 socket
                     //service.protect(dnsSocket);
