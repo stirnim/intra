@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,6 +33,8 @@ import java.util.Locale;
  */
 
 public class ServerChooser extends DialogPreference {
+  private static final String LOG_TAG = "ServerChooser";
+
   private String serverName;
   private String summaryTemplate;
   private String defaultDomain;

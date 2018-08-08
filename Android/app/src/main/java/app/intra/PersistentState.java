@@ -54,19 +54,19 @@ public class PersistentState {
     editor.apply();
   }
 
-  // Apart from syncLegacyState() above, the URL is only set by the PreferenceScreen, not by Intra.
-  private static void setServerUrl(Context context, String url) {
+  // only set by the PreferenceScreen, not by Intra.
+  private static void setServerName(Context context, String name) {
     SharedPreferences.Editor editor = getUserPreferences(context).edit();
-    editor.putString(SERVER_NAME_KEY, url);
+    editor.putString(SERVER_NAME_KEY, name);
     editor.apply();
   }
 
   public static String getServerName(Context context) {
-    String srvTemplate = getUserPreferences(context).getString(SERVER_NAME_KEY, null);
-    if (srvTemplate == null) {
+    String name = getUserPreferences(context).getString(SERVER_NAME_KEY, null);
+    if (name == null) {
       return context.getResources().getString(R.string.server0);
     }
-    return Untemplate.strip(srvTemplate);
+    return Untemplate.strip(name);
   }
 
   private static SharedPreferences getApprovalSettings(Context context) {

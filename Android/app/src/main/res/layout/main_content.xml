@@ -185,7 +185,7 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="https"
+          android:text="TLS"
           android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
       <TextView
@@ -231,7 +231,6 @@
             android:scrollbars="horizontal"
             android:singleLine="true"
             android:textIsSelectable="true"
-            android:text="dns-cache.switch.ch"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
       </LinearLayout>
