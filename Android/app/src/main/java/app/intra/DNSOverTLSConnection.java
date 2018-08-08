@@ -4,8 +4,6 @@ import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
@@ -25,6 +23,7 @@ public class DNSOverTLSConnection implements ServerConnection {
 
 
     public static DNSOverTLSConnection get(String hostname) {
+        Log.d("DNSOverTLSConnection","creating TLS connection object with hostname "+hostname);
         return new DNSOverTLSConnection(hostname);
     }
 

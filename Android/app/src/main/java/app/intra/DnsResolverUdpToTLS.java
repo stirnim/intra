@@ -70,8 +70,10 @@ public class DnsResolverUdpToTLS extends Thread {
 
   public DnsResolverUdpToTLS(ParcelFileDescriptor tunFd, DNSOverTLSConnection serverConnection) {
     super(LOG_TAG);
+    Log.d(LOG_TAG, "Instantiating DnsResolverUdpToTLS");
     this.tunFd = tunFd;
     this.serverConnection = serverConnection;
+
   }
 
   @Override

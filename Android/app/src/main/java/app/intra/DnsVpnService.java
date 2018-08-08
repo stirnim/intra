@@ -66,8 +66,8 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
   private PrivateAddress privateIpv4Address = null;
   private PrivateAddress privateIpv6Address = null;
   private ParcelFileDescriptor tunFd = null;
-  private DnsResolverUdpToHttps dnsResolver = null;
-  private ServerConnection serverConnection = null;
+  private DnsResolverUdpToTLS dnsResolver = null;
+  private DNSOverTLSConnection serverConnection = null;
   private String serverName = null;
 
   private boolean shouldRestart = false;
@@ -318,7 +318,7 @@ public class DnsVpnService extends VpnService implements NetworkManager.NetworkL
   private synchronized void startDnsResolver() {
     if (dnsResolver == null && serverConnection != null) {
       Log.i(LOG_TAG, "Starting DNS resolver");
-      dnsResolver = new DnsResolverUdpToHttps(tunFd, serverConnection);
+      dnsResolver = new DnsResolverUdpToTLS(tunFd, serverConnection);
       dnsResolver.start();
     }
   }
