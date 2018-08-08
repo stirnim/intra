@@ -39,8 +39,7 @@
 
   <string name="credits_text"
           description="Credits to contributing parties. 'Jigsaw' and 'Intra' are not translatable.">
-    Intra was made by <a href="https://jigsaw.google.com">Jigsaw</a>. IP locations are based on data
-    from DB-IP.com.
+    Intra is a fork of <a href="https://github.com/Jigsaw-Code/intra">https://github.com/Jigsaw-Code/intra</a>
   </string>
 
   <string name="dns_on"

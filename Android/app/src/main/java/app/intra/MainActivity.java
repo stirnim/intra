@@ -190,14 +190,8 @@ public class MainActivity extends AppCompatActivity
           case R.id.settings:
             chooseView(R.id.settings);
             return true;
-          case R.id.privacy:
-            openUrl("https://developers.google.com/speed/public-dns/privacy");
-            return true;
-          case R.id.tos:
-            openUrl("https://jigsaw.google.com/jigsaw-tos.html");
-            return true;
           case R.id.source_code:
-            openUrl("https://github.com/Jigsaw-Code/intra");
+            openUrl("https://github.com/stirnim/intra");
             return true;
           default:
             return false;
