@@ -87,6 +87,7 @@ public class ServerChooser extends DialogPreference {
   public void setServerName(String name) {
     this.serverName = name;
     persistString(name);
+    Log.d(LOG_TAG, "set server name: " + name );
     updateSummary(name);
   }
 
