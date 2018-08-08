@@ -35,11 +35,9 @@ public class DNSOverTLSConnection implements ServerConnection {
         int DoTPORT = 853;
 
         DatagramPacket outPacket = new DatagramPacket(data, data.length);
-        InetAddress addr;
 
         try {
-            addr = InetAddress.getByName(hostname);
-
+            String addr="130.59.118.34";//TODO: poike hardcoded currently
             Log.d("dns", "Trying to perform DNS-over-TLS lookup via " + addr.toString());
             Socket dnsSocket;
 
@@ -61,6 +59,7 @@ public class DNSOverTLSConnection implements ServerConnection {
             byte[] returnpacketdata = new byte[length];
             stream.read(returnpacketdata);
             dnsSocket.close();
+            Log.d("dns", "Got answer for query");
             callback.onDOTAnswer(returnpacketdata);
 
         } catch (Exception e) {
